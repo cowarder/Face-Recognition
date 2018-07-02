@@ -1,3 +1,4 @@
+#coding=utf-8
 import cv2
 
 from face_model import Model
@@ -7,14 +8,14 @@ class video_reader(object):
 	
 	def __init__(self):
 		self.model=Model()
-		self.model.load('/home/wang/Desktop/face/model/model-1.h5')
+		self.model.load('./model/model-1.h5')
 		self.IMG_SIZE=128
 
 	def build_video(self):
-		name_list=load_name_list("/home/wang/Desktop/face/grayfaces")
+		name_list=load_name_list("./grayfaces")
 		cameraCapture = cv2.VideoCapture(0)
 		success, frame = cameraCapture.read()
-		face_cascade=cv2.CascadeClassifier('/home/wang/Desktop/face/model/haarcascade_frontalface_alt.xml')
+		face_cascade=cv2.CascadeClassifier('./model/haarcascade_frontalface_alt.xml')
 
 
 		while success and cv2.waitKey(1)==-1:
@@ -25,6 +26,8 @@ class video_reader(object):
 				face=gray_pic[x:x+w,y:y+h]
 				face=cv2.resize(face,(self.IMG_SIZE,self.IMG_SIZE),interpolation=cv2.INTER_LINEAR)
 				label,prob=self.model.predict(face)
+				#name=name_list[label]
+				print name_list[label],prob
 				if prob>0.7:
 					name=name_list[label]
 				else:
@@ -36,8 +39,6 @@ class video_reader(object):
 		cv2.destroyAllWindows()
 
 
-
 if __name__=="__main__":
 	video=video_reader()
 	video.build_video()
-

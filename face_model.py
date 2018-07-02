@@ -42,7 +42,7 @@ class DataSet(object):
 		self.class_num=class_num
 
 class Model(object):
-	FILE_PATH="/home/wang/Desktop/face/model/model-1.h5"
+	FILE_PATH="./model/model-1.h5"
 	IMG_SIZE=128
 
 	def __inint__(self):
@@ -109,7 +109,7 @@ class Model(object):
 				loss='categorical_crossentropy',
 				metrics=['accuracy']
 			)
-		self.model.fit(self.data_set.train_X,self.data_set.train_y,epochs=9,batch_size=20)
+		self.model.fit(self.data_set.train_X,self.data_set.train_y,epochs=12,batch_size=20)
 
 	def evaluate(self):
 		loss,accuracy=self.model.evaluate(self.data_set.test_X,self.data_set.test_y)
@@ -131,7 +131,7 @@ class Model(object):
 		return max_index,result[0][max_index]		
 
 if __name__=="__main__":
-	data_set=DataSet("/home/wang/Desktop/face/grayfaces")
+	data_set=DataSet("./grayfaces")
 	model=Model()
 	model.read_data(data_set)
 	model.build_model()
